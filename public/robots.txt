@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://animeworldindia.com/sitemap.xml
+Sitemap: https://anime-flexx.vercel.app/sitemap.xml
