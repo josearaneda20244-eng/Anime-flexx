@@ -6,6 +6,9 @@ import viteCompression from 'vite-plugin-compression';
 import sitemap from 'vite-plugin-sitemap';
 
 export default defineConfig({
+  // FORZAMOS A VITE A USAR LA CARPETA PUBLIC
+  publicDir: 'public', 
+  
   plugins: [
     react(),
     // HTML optimization plugin
@@ -13,7 +16,7 @@ export default defineConfig({
       minify: true,
       inject: {
         data: {
-          title: 'Anime Flexx', // Actualizado para tu proyecto
+          title: 'Anime Flexx',
           description: 'Watch anime online on Anime Flexx',
         },
       },
@@ -21,7 +24,7 @@ export default defineConfig({
     // PWA plugin for offline support and better SEO
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt'],
+      includeAssets: ['favicon.ico', 'robots.txt', 'images/discordlogo.png'], // Añadimos el logo aquí también por seguridad
       manifest: {
         name: 'Anime Flexx',
         short_name: 'AnimeFlexx',
@@ -54,15 +57,12 @@ export default defineConfig({
     sitemap({
       hostname: 'https://anime-flexx.vercel.app', 
       dynamicRoutes: ['/'], 
-      // ESTA LÍNEA ARREGLA EL ERROR ENOENT EN VERCEL:
       generateRobotsTxt: false 
     }),
   ],
   build: {
-    // Optimize build output
     minify: 'esbuild',
-    outDir: 'dist', // Aseguramos el directorio de salida
-    // Code splitting for better performance
+    outDir: 'dist',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -71,19 +71,16 @@ export default defineConfig({
       },
     },
   },
-  // Server configuration
   server: {
     port: 5173, 
     open: true,
     proxy: {
-      // Proxy API requests to backend server
       '/api': {
         target: 'http://localhost:3001',
         changeOrigin: true,
       },
     },
   },
-  // Preview configuration
   preview: {
     port: 5173,
   },
